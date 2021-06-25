@@ -3,13 +3,13 @@ from flask import render_template, url_for, request, redirect, flash, jsonify
 from flask_gen import app, db, bcrypt, csrf
 from flask_gen.models import User
 from flask_login import login_required, login_user, logout_user, current_user
-import sqlite3 
+import sqlite3
 from flask_cors import cross_origin
 import datetime
 
 
 def connect():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('./farmer-mgmt/database.db')
     c = conn.cursor()
     return c, conn
 
@@ -76,11 +76,11 @@ def register():
 
             db.session.add(user)
             db.session.commit()
-            conn.commit()      
+            conn.commit()
             flash("Your account has been created.. You can now login.")
             conn.close()
             return redirect("authenticate")
-            
+
 
 @app.route('/login', methods=["POST"])
 def login():
@@ -138,7 +138,7 @@ def shopping():
         if i[1]==current_user.username:
             user_history.append(i)
     conn.close()
-        
+
     return render_template('shopping.html',seeds=seeds,fert=fert,history=user_history)
 
 
@@ -185,7 +185,7 @@ def buy():
     for i in sfdet:
         if i[0]==itemid:
             cost=i[1]
-    
+
     c.execute(f'insert into purchases values("{billid}","{current_user.username}","{itemid}","{current_time.year}-{current_time.month}-{current_time.day}","{cost}")')
     conn.commit()
     conn.close()
