@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rent</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet/less" type="text/css" href="../static/rent.less" />
+    <script src="//cdn.jsdelivr.net/npm/less@3.13"></script>
+  </head>
+  <body>
+    <h1>MACHINERIES FOR RENT</h1>
+    <h3>
+      Rent till date:
+      <input type="date" name="renttill" id="renttill" />
+    </h3>
+    <div class="container">
+      {% for i in data %}
+      <div class="card">
+        <div id="itemid" style="display: none">{{i[0]}}</div>
+        <div class="det">
+          <div class="name">{{i[-2]}}</div>
+        </div>
+        <div class="desc">{{i[-1]}}</div>
+        <div class="avail">
+          <div class="abl">{{av[data.index(i)]}}</div>
+          <div class="cost"><b>₹{{i[1]}}</b></div>
+          {% if av[data.index(i)].lower()=='available' %}
+          <button class="buy">BOOK</button>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="tableclass">
+      <h1>Your previous Rentals</h1>
+      <table>
+        <tr>
+          <th>Rent ID</th>
+          <th>Machinery ID</th>
+          <th>Date of Rent</th>
+          <th>Date of return</th>
+          <th>Cost</th>
+        </tr>
+
+        {% for i in history %}
+        <tr>
+          <td>{{i[0]}}</td>
+          <td>{{i[2]}}</td>
+          <td>{{i[4]}}</td>
+          <td>{{i[5]}}</td>
+          <td>{{i[3]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <script>
+      $(".buy").click(function () {
+        var id = $(this).parent().parent().children("#itemid").html();
+
+        var date = $("#renttill").val();
+        console.log(date)
+        if (date === "") {
+          alert("Choose the rent till date");
+        } else {
+          console.log(data);
+          var data = { id: id, date: date };
+          $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/rent",
+            data: JSON.stringify(data),
+            success: function () {
+              window.location = "http://localhost:8000/renting";
+            },
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

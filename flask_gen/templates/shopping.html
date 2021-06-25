@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase</title>
+    <link rel="stylesheet/less" type="text/css" href="/static/shopping.less" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/less@3.13"></script>    
+</head>
+<body>
+
+    <h1>SEEDS!!</h1>
+    <table>
+        <tr>
+            <th>Item ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Actions</th>
+            
+        </tr>
+        
+        {% for i in seeds %}
+        <tr>
+            <td id='itemid'>{{i[0]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[4]}}</td>
+            <td>{{i[1]}}</td>
+            <td><button class="buy">Buy</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <h1>FERTS!!</h1>
+    <table>
+        <tr>
+            <th>Item ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for i in fert %}
+        <tr>
+            <td id="itemid">{{i[0]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[4]}}</td>
+            <td>{{i[1]}}</td>
+            <td><button class="buy">Buy</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h1>HISTORY!!</h1>
+    <table>
+        <tr>
+            <th>Bill ID</th>
+            <th>Name</th>
+            <th>Date of purchase</th>
+            <th>Price</th>
+        </tr>
+
+        {% for i in history %}
+        <tr>
+            <td>{{i[0]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[3]}}</td>
+            <td>{{i[4]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script>
+        
+        $(".buy").click(function () {
+            var data = $(this).parent().parent().children("#itemid").html()
+            console.log(data)
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/buy",
+                data: data,
+                success: function() {
+                    window.location = "http://localhost:8000/shopping";
+                }
+            })
+        })
+
+
+    </script>
+</body>
+</html>

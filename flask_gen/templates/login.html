@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet/less" type="text/css" href="../static/login.less" />
+    <script src="//cdn.jsdelivr.net/npm/less@3.13"></script>
+    <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <script>alert("{{ message }}")</script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</head>
+<body>
+    <div class="container">
+    <form class="login" action="/login" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        
+        <div class="inputfield">
+            <input placeholder=" " type="text" name="username" id="username">
+            <label for="username">Username</label>
+        </div>
+        <div class="inputfield">
+            <input placeholder=" " type="password" name="password" id="password">
+            <label for="password">Password</label>
+        </div>
+        <button>SUBMIT</button>
+    </form>
+    <form class="register" action="/register" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+        <div class="inputfield">
+            <input placeholder=" " type="text" name="name" id="name">
+            <label for="name">Name</label>
+        </div>
+        <div class="inputfield">
+            <input placeholder=" " type="date" name="dob" id="dob">
+            <label for="dob">Dob</label>
+        </div>
+        <div class="inputfield">
+            <input pattern="[0-9]{12}" placeholder=" " type="text" name="aadhar" id="aadhar">
+            <label for="aadhar">Aadhar</label>
+        </div>
+        <div class="inputfield">
+            <input placeholder=" " type="text" name="phno" id="phno">
+            <label for="phno">Phone number</label>
+        </div>
+        <div class="inputfield">
+            <input placeholder=" " type="text" name="income" id="income">
+            <label for="income">Income</label>
+        </div>
+        <div class="inputfield">
+            <input placeholder=" " type="text" name="username" id="username">
+            <label for="username">Username</label>
+        </div>
+        <div class="inputfield">
+            <input placeholder=" " type="password" name="password" id="password">
+            <label for="password">Password</label>
+        </div>
+        <button>SUBMIT</button>
+    </form>
+    <div class="cover">
+        <h1>REGISTER</h1><br>
+        <p>Already have an account? <br>Click this box to Register</p>
+    </div>
+    </div>
+
+    <script>
+        var reg = true;
+        $('.cover').click(function () {
+            console.log("asdasd")
+            if (reg == true) {
+                reg = false;
+                var cover = $(this)
+                $('h1').html("LOGIN")
+                $('p').html("Don't have an account? <br>Click this box to Register.")
+                cover.toggleClass('rightside')
+            } else {
+                reg = true;
+                var cover = $(this)
+                cover.toggleClass('rightside')
+                $('h1').html("REGISTER")
+                $('p').html("Already have an account? <br>Click this box to SignIn.")
+            }
+        })
+        </script>
+</body>
+</html>

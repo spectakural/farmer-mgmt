@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Govt schemes</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet/less" type="text/css" href="/static/govt.less" />
+    <script src="//cdn.jsdelivr.net/npm/less@3.13"></script>
+  </head>
+  <body>
+    <h1>GOVT SCHEMES!</h1>
+    <div class="container">
+      {% for i in data %}
+      <div class="cards">
+        <h1 id="schemeid">{{ i[0] }}</h3>
+        <div class="details">
+            <p>Benefits: {{ i[1] }}</p>
+            <p>Criteria: {{ i[2] }}</p>
+        </div>
+        <div class="actions">
+            {% if i[3].lower()=='available' %}
+            <button class="buy">APPLY</button>
+            {% else %}
+            <p>Already applied</p>
+            {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+
+  <script>
+    $(".buy").click(function () {
+      var data = $(this).parent().parent().children("#schemeid").html();
+      console.log(data)
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/enroll",
+        data: data,
+        success: function () {
+          window.location = "http://localhost:8000/govtschemes"
+        },
+      });
+    });
+  </script>
+</html>
